@@ -1,10 +1,10 @@
-
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class Loginc {
-
+	Scanner s = new Scanner(System.in);
 	static ArrayList<User> userlist = new ArrayList<User>();
-
+	static int id;
 	static int status = 0;
 	static void modify(String chu)
 	{
@@ -52,14 +52,17 @@ public class Loginc {
 	{
 		// PLEASE MAKE SURE USERNAME EXISTS BEFORE CALLING THIS FUNCTION !!
 		int x = search(chu);
+		if(x!=-1)
+		{
 		userlist.remove(x);
+		}
 	}
 	
 	static int search(String chu)
 	{
 		for(int i = 0; i < userlist.size(); i++)
 		{
-			if(userlist.get(i).getusn() == chu)
+			if(userlist.get(i).getusn().equals(chu))
 					return i;
 		}
 		return -1;
@@ -68,7 +71,7 @@ public class Loginc {
 	{
 		int x= search(chu);
 		if(x!=-1){
-			if(userlist.get(x).getpwd() == userlist.get(x).hash(chp))
+			if(userlist.get(x).getpwd().equals(userlist.get(x).hash(chp)))
 			{
 				return true;
 			}
@@ -86,6 +89,8 @@ public class Loginc {
 		}
 	static boolean signup(String chu, String chp)
 	{
+
+		Scanner s = new Scanner(System.in);
 		if(chu!= null && chp!= null)
 		{
 			if(chu.length()>=6 && chp.length()>=6)
@@ -97,11 +102,28 @@ public class Loginc {
 
 					if (chp.matches(numRegex) && chp.matches(alphaRegex)) 
 					{
-						userlist.add(new User(chu,chp,0));
+						System.out.println("+------------------------------------------------+");
+						System.out.println("|                 ENTER AUTHORIZATION            |");
+						System.out.println("|                [NORMAL USERS ENTER 0]          |");
+						System.out.println("+------------------------------------------------+");
+						int au = Integer.parseInt(s.nextLine());
+						if(au>=0 && au<=3)
+						{
+						userlist.add(new User(chu,chp,au));
+
 						System.out.println("+------------------------------------------------+");
 						System.out.println("|       USER ACCOUNT CREATED SUCCESSFULLY!       |");
 						System.out.println("+------------------------------------------------+");
 						return true;
+						}
+						else
+						{
+							System.err.println("+------------------------------------------------+");
+							System.err.println("|  					INVALID                      |");
+							System.err.println("|				 AUTHORIZATION                   |");
+							System.err.println("+------------------------------------------------+");
+							return false;
+						}
 					}
 					else {
 
@@ -142,15 +164,15 @@ public class Loginc {
 	public static void Login()
 	{
 		Scanner s = new Scanner(System.in);
-		listusers(); //temporary
-		System.out.println("    +---------------------------------------+");
-		System.out.println("    |  WELCOME! PLEASE LOGIN IN OR SIGN UP  |");
-		System.out.println("    +---------------------------------------+");
+//		listusers(); //temporary
+		System.out.println("\t\t\t\t\t    +---------------------------------------+");
+		System.out.println("\t\t\t\t\t    |  WELCOME! PLEASE LOGIN IN OR SIGN UP  |");
+		System.out.println("\t\t\t\t\t    +---------------------------------------+");
 		
-		System.out.println("+----------------+                +-----------------+ ");
-		System.out.println("|Enter 1 to login|                |Enter 2 to signup|");
-		System.out.println("+----------------+                +-----------------+ ");
-		System.out.println("===================================================== ");
+		System.out.println("\t\t\t\t\t +----------------+                +-----------------+ ");
+		System.out.println("\t\t\t\t\t |Enter 1 to login|                |Enter 2 to signup|");
+		System.out.println("\t\t\t\t\t +----------------+                +-----------------+ ");
+		System.out.println("===================================================================================================== ");
 		int c = Integer.parseInt(s.nextLine());
 		if(c == 1 || c==2)
 		{
@@ -171,6 +193,7 @@ public class Loginc {
 					System.out.println("|                LOGIN SUCCESSFULL!              |");
 					System.out.println("+------------------------------------------------+");
 					status = 1;
+					id = search(x);
 				}
 				else {
 					System.out.println("+------------------------------------------------+");
@@ -199,13 +222,24 @@ public class Loginc {
 		System.out.println();
 		System.out.println("List of Users : \n");
 		for(int i = 0;i<userlist.size();i++){
+			System.out.print("\n ACCOUNT INFO \n");
 			System.out.print("Username : ");
 			System.out.println(userlist.get(i).username);
 			System.out.print("Password : ");
 			System.out.println(userlist.get(i).password);
 			System.out.print("Authorization : ");
 			System.out.println(userlist.get(i).authorization);
-			System.out.println();
+			System.out.print("\n PERSONAL INFO \n");
+			System.out.print("Name: ");
+			System.out.println(userlist.get(i).name);
+			System.out.print("Age: ");
+			System.out.println(userlist.get(i).age);
+			System.out.print("Sex: ");
+			System.out.println(userlist.get(i).sex);
+			System.out.print("Aadhar: ");
+			System.out.println(userlist.get(i).aadhar);
+			System.out.print("Address: ");
+			System.out.println(userlist.get(i).address);			
 		}
 	}
 

@@ -6,12 +6,14 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class User {
+public class User extends Person{
 		
 	    String username;
 	    String password;
 	    int authorization;
-	   public User(String usn,String pwd, int auth){
+	   public User(String usn,String pwd, int auth)
+	   {
+		   super();
 	    	username = usn;
 	       	authorization = auth;
 	       	password = hash(pwd);
